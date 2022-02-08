@@ -1,1 +1,15 @@
-export default {};
+export const COLORS = [
+    'stone',
+    'red',
+    'orange',
+    'lime',
+    'green',
+    'teal',
+    'cyan',
+    'blue',
+    'indigo',
+    'violet',
+    'purple',
+    'pink',
+    'rose',
+];

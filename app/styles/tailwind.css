@@ -3,9 +3,13 @@
 @tailwind utilities;
 
 p {
-  @apply mb-4;
+    @apply mb-4;
 }
 
 .main-wrapper {
-  @apply p-12 lg:p-8 xl:p-16 xl:m-16;
+    @apply p-12 lg:p-8 xl:p-16 xl:m-16;
+}
+
+.post-date {
+    @apply text-slate-400;
 }

@@ -9,9 +9,9 @@ const FooterWrapper = tw.footer`
 `;
 
 export default function Footer() {
-  return (
-    <FooterWrapper>
-      <p>Copyright &copy; 2022 Bhashkar Sharma</p>
-    </FooterWrapper>
-  );
+    return (
+        <FooterWrapper>
+            <p>Copyright &copy; 2022 Bhashkar Sharma</p>
+        </FooterWrapper>
+    );
 }
