@@ -14,7 +14,7 @@ import Header from '~/components/Header';
 import PageTitle from '~/components/PageTitle';
 import stylesUrl from '~/tailwind.css';
 
-export let links: LinksFunction = () => {
+export const links: LinksFunction = () => {
     return [{ rel: 'stylesheet', href: stylesUrl }];
 };
 

@@ -1,5 +1,6 @@
 import { tw } from 'brise';
 import { Link } from 'remix';
+import { SITE } from '~/constants/global';
 
 const Navbar = tw.header`
   navbar
@@ -32,10 +33,10 @@ const NAV_LINKS = [
         to: '/about',
         label: 'About',
     },
-    {
-        to: '/resume',
-        label: 'Resume',
-    },
+    // {
+    //     to: '/resume',
+    //     label: 'Resume',
+    // },
 ];
 
 export default function Header() {
@@ -43,7 +44,7 @@ export default function Header() {
         <Navbar>
             <NavbarStart>
                 <span className="text-lg font-bold">
-                    <Link to="/">Bhashkar Sharma</Link>
+                    <Link to="/">{SITE.title}</Link>
                 </span>
             </NavbarStart>
 

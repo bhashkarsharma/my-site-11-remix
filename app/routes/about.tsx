@@ -1,9 +1,10 @@
 import type { MetaFunction } from 'remix';
 import PageTitle from '~/components/PageTitle';
+import { SITE } from '~/constants/global';
 
-export let meta: MetaFunction = () => {
+export const meta: MetaFunction = () => {
     return {
-        title: 'About - Bhashkar Sharma',
+        title: `About - ${SITE.title}`,
         description: 'About me',
     };
 };

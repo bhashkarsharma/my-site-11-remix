@@ -1,15 +1,21 @@
 import { tw } from 'brise';
-import type { MetaFunction } from 'remix';
+import type { HeadersFunction, MetaFunction } from 'remix';
 import { Link, useLoaderData } from 'remix';
 import type { LoaderFunction } from 'remix';
 import PageTitle from '~/components/PageTitle';
-import { COLORS } from '~/constants/global';
+import { SITE, TAILWIND_COLORS } from '~/constants/global';
 import type { Post } from '~/types/post';
 import { getPosts, getPublishedLocaleDate } from '~/utils/post';
 
-export let meta: MetaFunction = () => {
+export const headers: HeadersFunction = () => {
     return {
-        title: 'Blog - Bhashkar Sharma',
+        'Cache-Control': SITE.cacheHeaders,
+    };
+};
+
+export const meta: MetaFunction = () => {
+    return {
+        title: `Blog - ${SITE.title}`,
         description: 'My writings',
     };
 };
@@ -35,7 +41,7 @@ export default function Blog() {
                 {posts.map((post, index) => (
                     <li className="my-8" key={post.id}>
                         <Link to={`/blog/${post.slug}`}>
-                            <PostTitle color={COLORS[index]}>
+                            <PostTitle color={TAILWIND_COLORS[index]}>
                                 {post.title}
                             </PostTitle>
                             <div className="post-date">

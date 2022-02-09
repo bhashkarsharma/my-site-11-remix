@@ -1,13 +1,20 @@
 import { useLoaderData } from 'remix';
-import type { LoaderFunction, MetaFunction } from 'remix';
+import type { HeadersFunction, LoaderFunction, MetaFunction } from 'remix';
 import invariant from 'tiny-invariant';
 import PageTitle from '~/components/PageTitle';
+import { SITE } from '~/constants/global';
 import type { Post } from '~/types/post';
 import { getPost, getPublishedLocaleDate } from '~/utils/post';
 
-export let meta: MetaFunction = ({ data }: { data: Post }) => {
+export const headers: HeadersFunction = () => {
     return {
-        title: `${data.title} - Bhashkar Sharma`,
+        'Cache-Control': SITE.cacheHeaders,
+    };
+};
+
+export const meta: MetaFunction = ({ data }: { data: Post }) => {
+    return {
+        title: `${data.title} - ${SITE.title}`,
         description: data.byline ?? 'My writings',
     };
 };
