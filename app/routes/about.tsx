@@ -11,7 +11,7 @@ export const meta: MetaFunction = () => {
 
 export default function About() {
     return (
-        <div className="main-wrapper">
+        <div className="content-wrapper">
             <PageTitle>Hi there! 👋</PageTitle>
             <p>Nice to meet you. I am Bhashkar.</p>
             <p>🚧 I am currently building my site. Please visit again. 🚧</p>

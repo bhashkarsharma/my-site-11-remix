@@ -35,7 +35,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
     return (
         <Document title="Error!">
             <Layout>
-                <div className="main-wrapper">
+                <div className="content-wrapper">
                     <PageTitle>There was an error!</PageTitle>
 
                     <p>
@@ -77,7 +77,7 @@ export function CatchBoundary() {
     return (
         <Document title={`${caught.status} ${caught.statusText}`}>
             <Layout>
-                <div className="main-wrapper">
+                <div className="content-wrapper">
                     <PageTitle>
                         {caught.status}: {caught.statusText}
                     </PageTitle>

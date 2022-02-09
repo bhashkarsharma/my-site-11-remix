@@ -35,7 +35,7 @@ export default function Blog() {
     const posts = useLoaderData<Post[]>();
 
     return (
-        <div className="main-wrapper">
+        <div className="content-wrapper">
             <PageTitle>Recent Blog Posts</PageTitle>
             <ul>
                 {posts.map((post, index) => (

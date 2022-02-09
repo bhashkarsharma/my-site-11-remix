@@ -11,8 +11,8 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
     return (
-        <div className="main-wrapper">
-            <PageTitle>Welcome to my website!</PageTitle>
+        <div className="content-wrapper">
+            <PageTitle>Welcome to my website.</PageTitle>
             <p>Glad to have you here 🥳</p>
         </div>
     );

@@ -6,10 +6,10 @@ p {
     @apply mb-4;
 }
 
-.main-wrapper {
+.content-wrapper {
     @apply p-12 lg:p-8 xl:p-16 xl:m-16;
 }
 
 .post-date {
-    @apply text-slate-400;
+    @apply mt-2 text-slate-400;
 }

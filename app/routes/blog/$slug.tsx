@@ -1,8 +1,8 @@
-import { useLoaderData } from 'remix';
+import { Link, useLoaderData } from 'remix';
 import type { HeadersFunction, LoaderFunction, MetaFunction } from 'remix';
 import invariant from 'tiny-invariant';
 import PageTitle from '~/components/PageTitle';
-import { SITE } from '~/constants/global';
+import { SITE, TAILWIND_COLORS } from '~/constants/global';
 import type { Post } from '~/types/post';
 import { getPost, getPublishedLocaleDate } from '~/utils/post';
 
@@ -31,32 +31,57 @@ export const loader: LoaderFunction = async ({ params: { slug } }) => {
     return post;
 };
 
+const getRandomColor = () =>
+    TAILWIND_COLORS[Math.floor(Math.random() * TAILWIND_COLORS.length)];
+
 const getHeroImage = (post: Post) => post.hero?.[0].thumbnails.large.url;
+
+const PostHeading = ({ post }: { post: Post }) => {
+    return (
+        <div className="content-wrapper pb-2">
+            <PageTitle>{post.title}</PageTitle>
+            {post.byline && <h2>{post.byline}</h2>}
+            <div className="post-date">
+                {getPublishedLocaleDate(post.published)}
+            </div>
+        </div>
+    );
+};
 
 export default function BlogPost() {
     const post = useLoaderData<Post>();
     const hero = getHeroImage(post);
 
     return (
-        <div className="main-wrapper">
-            <div className="p-4">
-                <PageTitle>{post.title}</PageTitle>
-                {post.byline && <h2>{post.byline}</h2>}
-                <div className="post-date">
-                    {getPublishedLocaleDate(post.published)}
+        <>
+            <div
+                className={`hero min-h-screen ${
+                    hero ? '' : `bg-${getRandomColor()}-600`
+                }`}
+                style={{
+                    ...(hero && { backgroundImage: `url("${hero}")` }),
+                }}
+            >
+                <div className="hero-overlay bg-opacity-60"></div>
+                <div className="hero-content text-neutral-content">
+                    <div>
+                        <PageTitle>{post.title}</PageTitle>
+                        {post.byline && <h2>{post.byline}</h2>}
+                        <div className="post-date">
+                            {getPublishedLocaleDate(post.published)}
+                        </div>
+                    </div>
                 </div>
             </div>
-            {hero && (
-                <img
-                    className="h-full w-full object-cover"
-                    src={hero}
-                    alt="Hero Image"
-                />
-            )}
+
             <div
-                className="w-auto text-xl first-letter:text-7xl"
+                className="content-wrapper text-xl first-letter:text-7xl"
                 dangerouslySetInnerHTML={{ __html: post.content || '' }}
-            />
-        </div>
+            ></div>
+
+            <div className="content-wrapper text-center text-4xl font-bold">
+                <Link to="/blog">Back to Blog</Link>
+            </div>
+        </>
     );
 }
