@@ -1,9 +1,10 @@
 import { table } from './airtable';
 import type { FieldSet, Record } from 'airtable';
 import { marked } from 'marked';
-import { PostSchema } from '~/types/post';
+import { SITE } from '~/constants/global';
+import { Post, PostSchema } from '~/types/post';
 
-const convertRecordToPost = (record: Record<FieldSet>) => {
+const convertRecordToPost = (record: Record<FieldSet>): Post => {
     const post = {
         id: record.id,
         title: record.get('Title'),
@@ -23,19 +24,25 @@ const convertRecordToPost = (record: Record<FieldSet>) => {
 };
 
 export const getPosts = async () => {
-    const records = await table
-        .select({
-            pageSize: 10,
-            sort: [{ field: 'Published', direction: 'desc' }],
-        })
-        .firstPage();
+    return new Promise(async (resolve, reject) => {
+        await table
+            .select({
+                pageSize: SITE.postsPerPage,
+                sort: [{ field: 'Published', direction: 'desc' }],
+            })
+            .eachPage(
+                (records, fetchNext: () => void) => {
+                    resolve(records.map(convertRecordToPost));
+                },
 
-    return records.map((record, index) => {
-        try {
-            return convertRecordToPost(record);
-        } catch (error) {
-            console.error(`Error ${error} at post index ${index}`);
-        }
+                (err: Error) => {
+                    if (err) {
+                        console.error(err);
+
+                        reject(err);
+                    }
+                },
+            );
     });
 };
 
@@ -55,3 +62,5 @@ export const getPublishedLocaleDate = (published: string) =>
     new Date(published).toLocaleDateString('en-US', {
         dateStyle: 'long',
     });
+
+export const getHeroImage = (post: Post) => post.hero?.[0].thumbnails.large.url;

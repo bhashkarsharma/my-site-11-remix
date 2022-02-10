@@ -19,6 +19,7 @@ export const SITE = {
         //     label: 'Resume',
         // },
     ],
+    postsPerPage: 5,
 };
 
 export const TAILWIND_COLORS = [

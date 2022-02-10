@@ -4,7 +4,7 @@ import invariant from 'tiny-invariant';
 import PageTitle from '~/components/PageTitle';
 import { SITE, TAILWIND_COLORS } from '~/constants/global';
 import type { Post } from '~/types/post';
-import { getPost, getPublishedLocaleDate } from '~/utils/post';
+import { getHeroImage, getPost, getPublishedLocaleDate } from '~/utils/post';
 
 export const headers: HeadersFunction = () => {
     return {
@@ -34,20 +34,6 @@ export const loader: LoaderFunction = async ({ params: { slug } }) => {
 const getRandomColor = () =>
     TAILWIND_COLORS[Math.floor(Math.random() * TAILWIND_COLORS.length)];
 
-const getHeroImage = (post: Post) => post.hero?.[0].thumbnails.large.url;
-
-const PostHeading = ({ post }: { post: Post }) => {
-    return (
-        <div className="content-wrapper pb-2">
-            <PageTitle>{post.title}</PageTitle>
-            {post.byline && <h2>{post.byline}</h2>}
-            <div className="post-date">
-                {getPublishedLocaleDate(post.published)}
-            </div>
-        </div>
-    );
-};
-
 export default function BlogPost() {
     const post = useLoaderData<Post>();
     const hero = getHeroImage(post);
@@ -55,14 +41,16 @@ export default function BlogPost() {
     return (
         <>
             <div
-                className={`hero min-h-screen ${
-                    hero ? '' : `bg-${getRandomColor()}-600`
-                }`}
+                className="hero min-h-screen"
                 style={{
                     ...(hero && { backgroundImage: `url("${hero}")` }),
                 }}
             >
-                <div className="hero-overlay bg-opacity-60"></div>
+                <div
+                    className={`hero-overlay bg-opacity-60 ${
+                        !hero && `bg-${getRandomColor()}-600`
+                    }`}
+                ></div>
                 <div className="hero-content text-neutral-content">
                     <div>
                         <PageTitle>{post.title}</PageTitle>
