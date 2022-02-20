@@ -1,13 +1,4 @@
-import {
-    Link,
-    Links,
-    LiveReload,
-    Meta,
-    Outlet,
-    Scripts,
-    ScrollRestoration,
-    useCatch,
-} from 'remix';
+import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch } from 'remix';
 import type { LinksFunction } from 'remix';
 import Footer from '~/components/Footer';
 import Navbar from '~/components/Navbar';
@@ -39,8 +30,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
                     <PageTitle>There was an error!</PageTitle>
 
                     <p>
-                        Please refresh the page, or{' '}
-                        <Link to="/">go back Home</Link>.
+                        Please refresh the page, or <Link to="/">go back Home</Link>.
                     </p>
                 </div>
             </Layout>
@@ -55,19 +45,11 @@ export function CatchBoundary() {
     switch (caught.status) {
         case 401:
             message = (
-                <p>
-                    Oops! Looks like you tried to visit a page that you do not
-                    have access to.
-                </p>
+                <p>Oops! Looks like you tried to visit a page that you do not have access to.</p>
             );
             break;
         case 404:
-            message = (
-                <p>
-                    Oops! Looks like you tried to visit a page that does not
-                    exist.
-                </p>
-            );
+            message = <p>Oops! Looks like you tried to visit a page that does not exist.</p>;
             break;
 
         default:
@@ -88,21 +70,12 @@ export function CatchBoundary() {
     );
 }
 
-function Document({
-    children,
-    title,
-}: {
-    children: React.ReactNode;
-    title?: string;
-}) {
+function Document({ children, title }: { children: React.ReactNode; title?: string }) {
     return (
         <html lang="en">
             <head>
                 <meta charSet="utf-8" />
-                <meta
-                    name="viewport"
-                    content="width=device-width,initial-scale=1"
-                />
+                <meta name="viewport" content="width=device-width,initial-scale=1" />
                 {title ? <title>{title}</title> : null}
                 <Meta />
                 <Links />
@@ -121,11 +94,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     return (
         <div className="h-screen">
             <div className="h-full shadow bg-base-200 drawer drawer-end">
-                <input
-                    id="nav-drawer"
-                    type="checkbox"
-                    className="drawer-toggle"
-                />
+                <input id="nav-drawer" type="checkbox" className="drawer-toggle" />
                 <div className="h-full flex flex-col justify-between drawer-content">
                     <Navbar />
                     <main>{children}</main>

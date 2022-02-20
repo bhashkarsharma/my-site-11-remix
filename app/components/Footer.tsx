@@ -20,14 +20,13 @@ const FooterWrapper = tw.footer`
 
 const iconSize = '2.5em';
 
-const FooterLink = ({
-    href,
-    children,
-}: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a href={href} target="_blank" rel="noreferrer">
-        {children}
-    </a>
-);
+function FooterLink({ href, children }: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+    return (
+        <a href={href} target="_blank" rel="noreferrer">
+            {children}
+        </a>
+    );
+}
 
 export default function Footer() {
     return (

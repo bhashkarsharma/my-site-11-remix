@@ -11,6 +11,10 @@ export const SITE = {
             label: 'Blog',
         },
         {
+            to: '/lab',
+            label: 'Lab',
+        },
+        {
             to: '/about',
             label: 'About',
         },
@@ -19,6 +23,7 @@ export const SITE = {
         //     label: 'Resume',
         // },
     ],
+    postsToFetch: 50,
     postsPerPage: 5,
 };
 

@@ -6,6 +6,8 @@ import { SITE, TAILWIND_COLORS } from '~/constants/global';
 import type { Post } from '~/types/post';
 import { getHeroImage, getPost, getPublishedLocaleDate } from '~/utils/post';
 
+const getRandomColor = () => TAILWIND_COLORS[Math.floor(Math.random() * TAILWIND_COLORS.length)];
+
 export const headers: HeadersFunction = () => {
     return {
         'Cache-Control': SITE.cacheHeaders,
@@ -28,14 +30,13 @@ export const loader: LoaderFunction = async ({ params: { slug } }) => {
         throw new Response('Not Found', { status: 404 });
     }
 
-    return post;
+    const bgColor = getRandomColor();
+
+    return { post, bgColor };
 };
 
-const getRandomColor = () =>
-    TAILWIND_COLORS[Math.floor(Math.random() * TAILWIND_COLORS.length)];
-
 export default function BlogPost() {
-    const post = useLoaderData<Post>();
+    const { post, bgColor } = useLoaderData<{ post: Post; bgColor: string }>();
     const hero = getHeroImage(post);
 
     return (
@@ -46,26 +47,21 @@ export default function BlogPost() {
                     ...(hero && { backgroundImage: `url("${hero}")` }),
                 }}
             >
-                <div
-                    className={`hero-overlay bg-opacity-60 ${
-                        !hero && `bg-${getRandomColor()}-600`
-                    }`}
-                ></div>
+                <div className={`hero-overlay bg-opacity-60 ${!hero && `bg-${bgColor}-600`}`} />
                 <div className="hero-content text-neutral-content">
                     <div>
                         <PageTitle>{post.title}</PageTitle>
                         {post.byline && <h2>{post.byline}</h2>}
-                        <div className="post-date">
-                            {getPublishedLocaleDate(post.published)}
-                        </div>
+                        <div className="post-date">{getPublishedLocaleDate(post.published)}</div>
                     </div>
                 </div>
             </div>
 
             <div
                 className="content-wrapper text-xl first-letter:text-7xl"
+                // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{ __html: post.content || '' }}
-            ></div>
+            />
 
             <div className="content-wrapper text-center text-4xl font-bold">
                 <Link to="/blog">Back to Blog</Link>

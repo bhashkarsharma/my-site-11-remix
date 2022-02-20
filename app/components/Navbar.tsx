@@ -12,10 +12,7 @@ export default function Navbar() {
                 <ul className="menu horizontal">
                     {SITE.navLinks.map((item) => (
                         <li key={item.to}>
-                            <NavLink
-                                className="btn btn-ghost rounded-btn"
-                                to={item.to}
-                            >
+                            <NavLink className="btn btn-ghost rounded-btn" to={item.to}>
                                 {item.label}
                             </NavLink>
                         </li>
@@ -23,10 +20,7 @@ export default function Navbar() {
                 </ul>
             </div>
             <div className="flex-none md:hidden">
-                <label
-                    htmlFor="nav-drawer"
-                    className="btn btn-square btn-ghost"
-                >
+                <label htmlFor="nav-drawer" className="btn btn-square btn-ghost">
                     <FaBars size="2em" />
                 </label>
             </div>
