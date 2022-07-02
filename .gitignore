@@ -9,3 +9,6 @@ api/_build
 
 .env
 /app/tailwind.css
+
+.DS_Store
+.eslintignore

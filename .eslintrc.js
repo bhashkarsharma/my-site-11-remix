@@ -52,7 +52,7 @@ module.exports = {
             { functions: false, classes: false, variables: true },
         ],
         'import/prefer-default-export': 'off',
-        'import/no-unresolved': ['error', { ignore: ['^@'] }],
+        'import/no-unresolved': ['error', { ignore: ['^@', '^~'] }],
         '@typescript-eslint/explicit-module-boundary-types': 'off',
     },
     overrides: [
