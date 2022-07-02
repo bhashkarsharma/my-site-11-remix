@@ -1,30 +1,61 @@
-import { client } from './contentful';
-import { Entry } from 'contentful';
+import { table } from './airtable';
+import type { FieldSet, Record } from 'airtable';
 import { marked } from 'marked';
+import { SITE } from '~/constants/global';
 import { Post, PostSchema } from '~/types/post';
 
-enum ContentType {
-    POST = 'post',
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const convertEntryToPost = (entry: Entry<any>): Post => {
+const convertRecordToPost = (record: Record<FieldSet>): Post => {
     const post = {
-        id: entry.sys.id,
-        title: entry.fields.title,
-        contentType: entry.sys.contentType.sys.id,
-        draft: false, // hardcoding, since only fetching published posts
-        slug: entry.fields.slug,
-        published: entry.fields.published,
-        hero: entry.fields.heroImage,
-        byline: '',
-        content: entry.fields.longContent,
-        tags: entry.metadata.tags.map((t) => t.sys.id),
+        id: record.id,
+        title: record.get('Title'),
+        contentType: record.get('ContentType'),
+        draft: record.get('Draft'),
+        slug: record.get('Slug'),
+        published: record.get('Published'),
+        byline: record.get('Byline'),
+        hero: record.get('Hero'),
+        content: record.get('Content'),
+        tags: record.get('Tags'),
     };
 
     const parsed = PostSchema.parse(post);
 
     return { ...parsed, content: marked(parsed.content || '') };
+};
+
+export const getPosts = async (): Promise<Post[]> => {
+    return new Promise(async (resolve, reject) => {
+        await table
+            .select({
+                pageSize: SITE.postsToFetch,
+                sort: [{ field: 'Published', direction: 'desc' }],
+            })
+            .eachPage(
+                (records, fetchNext: () => void) => {
+                    resolve(records.map(convertRecordToPost));
+                },
+
+                (err: Error) => {
+                    if (err) {
+                        console.error(err);
+
+                        reject(err);
+                    }
+                },
+            );
+    });
+};
+
+export const getPost = async (slug: string): Promise<Post | null> => {
+    const records = await table
+        .select({
+            filterByFormula: `SEARCH("${slug}", {Slug})`,
+        })
+        .firstPage();
+
+    const [first] = records;
+
+    return first ? convertRecordToPost(first) : null;
 };
 
 export const getPublishedLocaleDate = (published: string) =>
@@ -33,21 +64,3 @@ export const getPublishedLocaleDate = (published: string) =>
     });
 
 export const getHeroImage = (post: Post) => post.hero?.[0].thumbnails.large.url;
-
-export const getPosts = async (query?: string): Promise<Post[]> => {
-    const config = query ? { query } : undefined;
-    const entries = await client.getEntries(config);
-
-    return entries.items.map(convertEntryToPost);
-};
-
-export const getPost = async (slug: string) => {
-    const entries = await client.getEntries({
-        content_type: ContentType.POST,
-        'fields.slug': slug,
-    });
-
-    const [post] = entries.items;
-
-    return post ? convertEntryToPost(post) : null;
-};
