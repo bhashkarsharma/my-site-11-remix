@@ -2,6 +2,7 @@ import { tw } from 'brise';
 import type { HeadersFunction, LoaderFunction, MetaFunction } from 'remix';
 import { Link, useLoaderData } from 'remix';
 import PageTitle from '~/components/PageTitle';
+import PostTitle from '~/components/PostTitle';
 import { SITE, TAILWIND_COLORS } from '~/constants/global';
 import type { Post } from '~/types/post';
 import { getPosts, getPublishedLocaleDate } from '~/utils/post';
@@ -39,15 +40,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
     return { posts, currentPage, isFirstPage, isLastPage };
 };
-
-const PostTitle = tw.h2<{ color?: string }>`
-  mb-2
-  text-3xl
-  lg:text-5xl
-  capitalize
-  font-bold
-  ${(props) => (props.color ? `text-${props.color}-400` : '')}
-`;
 
 export default function Blog() {
     const { posts, currentPage, isFirstPage, isLastPage } = useLoaderData<{

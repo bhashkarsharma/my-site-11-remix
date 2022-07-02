@@ -14,10 +14,10 @@ export const headers: HeadersFunction = () => {
     };
 };
 
-export const meta: MetaFunction = ({ data }: { data: Post }) => {
+export const meta: MetaFunction = ({ data }) => {
     return {
-        title: `${data.title} - ${SITE.title}`,
-        description: data.byline ?? 'My writings',
+        title: `${data?.post?.title} - ${SITE.title}`,
+        description: data?.post?.byline ?? 'My writings',
     };
 };
 
