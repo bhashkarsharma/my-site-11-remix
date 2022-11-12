@@ -4,9 +4,9 @@ import PageTitle from '~/components/PageTitle';
 import PostPreview from '~/components/PostPreview';
 import PostPreviewWrapper from '~/components/PostPreviewWrapper';
 import PostTitle from '~/components/PostTitle';
-import { SITE, TAILWIND_COLORS } from '~/constants/global';
+import { SITE } from '~/constants/global';
 import type { Post } from '~/types/post';
-import { getPosts, getPublishedLocaleDate } from '~/utils/post';
+import { getPosts } from '~/utils/post';
 
 export const headers: HeadersFunction = () => {
     return {

@@ -11,7 +11,7 @@
         "dev:css": "tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css --watch",
         "postinstall": "rm -f .eslintignore && remix setup node && ln -s .gitignore .eslintignore",
         "clean": "rm -rf .cache public/build app/tailwind.css",
-        "lint": "eslint --fix .",
+        "lint:fix": "eslint --fix ./app",
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,scss,md,json}'"
     },
     "dependencies": {
@@ -44,6 +44,7 @@
         "@typescript-eslint/eslint-plugin": "^5.42.1",
         "@typescript-eslint/parser": "^5.42.1",
         "autoprefixer": "^10.4.13",
+        "babel-plugin-module-resolver": "^4.1.0",
         "concurrently": "^7.5.0",
         "cross-env": "^7.0.3",
         "esbuild": "^0.14.54",
@@ -57,6 +58,7 @@
         "eslint-plugin-react": "^7.31.10",
         "eslint-plugin-react-hooks": "^4.6.0",
         "eslint-plugin-simple-import-sort": "^8.0.0",
+        "eslint-plugin-tailwindcss": "^3.6.2",
         "husky": "^8.0.2",
         "lint-staged": "^13.0.3",
         "mdx-bundler": "^9.0.1",

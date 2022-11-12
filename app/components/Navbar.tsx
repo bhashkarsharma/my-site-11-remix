@@ -20,6 +20,7 @@ export default function Navbar() {
                 </ul>
             </div>
             <div className="flex-none md:hidden">
+                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label htmlFor="nav-drawer" className="btn btn-square btn-ghost">
                     <FaBars size="2em" />
                 </label>

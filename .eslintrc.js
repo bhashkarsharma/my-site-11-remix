@@ -13,11 +13,12 @@ module.exports = {
             jsx: true,
         },
     },
-    plugins: ['@typescript-eslint', 'simple-import-sort', 'react', 'prettier'],
+    plugins: ['@typescript-eslint', 'tailwindcss', 'simple-import-sort', 'react', 'prettier'],
     extends: [
         'airbnb',
         'airbnb/hooks',
         'plugin:@typescript-eslint/recommended',
+        'plugin:tailwindcss/recommended',
         'plugin:react/recommended',
         'plugin:import/errors',
         'plugin:import/warnings',

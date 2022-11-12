@@ -20,9 +20,7 @@ export default function App() {
     );
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
-    console.error(error);
-
+export function ErrorBoundary() {
     return (
         <Document title="Error!">
             <Layout>

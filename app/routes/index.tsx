@@ -13,7 +13,7 @@ export const meta: MetaFunction = () => {
     };
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async () => {
     const latestPosts = await getPosts({ postsToFetch: 3 });
     latestPosts.push({
         id: 'blog',

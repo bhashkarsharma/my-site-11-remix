@@ -12,6 +12,7 @@ export default function SideDrawer() {
 
     return (
         <div className="drawer-side">
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="nav-drawer" className="drawer-overlay" />
             <ul className="p-4 overflow-y-auto menu w-80 bg-base-100">
                 {SITE.navLinks.map((item) => (
