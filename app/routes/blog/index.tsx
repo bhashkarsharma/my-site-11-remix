@@ -1,7 +1,8 @@
-import { tw } from 'brise';
 import type { HeadersFunction, LoaderFunction, MetaFunction } from 'remix';
 import { Link, useLoaderData } from 'remix';
 import PageTitle from '~/components/PageTitle';
+import PostPreview from '~/components/PostPreview';
+import PostPreviewWrapper from '~/components/PostPreviewWrapper';
 import PostTitle from '~/components/PostTitle';
 import { SITE, TAILWIND_COLORS } from '~/constants/global';
 import type { Post } from '~/types/post';
@@ -52,23 +53,11 @@ export default function Blog() {
     return (
         <div className="content-wrapper">
             <PageTitle>Recent Blog Posts</PageTitle>
-            <ul>
-                {posts.map((post, index) => (
-                    <li className="my-8" key={post.id}>
-                        <Link to={`/blog/${post.slug}`}>
-                            <PostTitle color={TAILWIND_COLORS[index]}>{post.title}</PostTitle>
-                            <div className="post-date">
-                                {getPublishedLocaleDate(post.published)}
-                                {post.tags?.map((tag) => (
-                                    <div key={tag} className="ml-4 badge badge-accent">
-                                        {tag}
-                                    </div>
-                                ))}
-                            </div>
-                        </Link>
-                    </li>
+            <PostPreviewWrapper>
+                {posts.map((post) => (
+                    <PostPreview key={post.id} post={post} />
                 ))}
-            </ul>
+            </PostPreviewWrapper>
             {posts.length > 0 ? (
                 <div className="btn-group grid grid-cols-2">
                     <Link

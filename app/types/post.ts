@@ -34,7 +34,7 @@ export const PostSchema = z
         contentType: z.string(),
         draft: z.optional(z.boolean()),
         slug: z.string(),
-        published: z.string(),
+        published: z.optional(z.string()),
         byline: z.optional(z.string()),
         hero: z.optional(z.array(HeroImageSchema)),
         content: z.optional(z.string()),
