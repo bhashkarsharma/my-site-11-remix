@@ -46,7 +46,7 @@
         "autoprefixer": "^10.4.13",
         "concurrently": "^7.5.0",
         "cross-env": "^7.0.3",
-        "esbuild": "^0.15.13",
+        "esbuild": "^0.14.54",
         "eslint": "^8.27.0",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-config-prettier": "^8.5.0",
