@@ -4,7 +4,7 @@ import { SITE } from '~/constants/global';
 
 export default function Navbar() {
     return (
-        <div className="w-full navbar bg-primary">
+        <div className="w-full navbar">
             <div className="flex-1 px-2 mx-2 text-lg font-bold">
                 <Link to="/">{SITE.title}</Link>
             </div>
