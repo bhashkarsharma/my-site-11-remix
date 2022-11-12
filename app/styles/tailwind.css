@@ -10,6 +10,10 @@ p {
     @apply p-12 lg:p-8 xl:p-16 xl:m-16;
 }
 
+.prose-wrapper {
+    @apply content-wrapper prose md:prose-lg lg:prose-xl xl:prose-2xl;
+}
+
 .post-date {
     @apply mt-2 text-slate-400;
 }

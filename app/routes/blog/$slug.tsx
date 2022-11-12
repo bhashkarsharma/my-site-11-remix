@@ -42,7 +42,7 @@ export default function BlogPost() {
     return (
         <>
             <div
-                className="hero min-h-screen"
+                className={`hero${hero ? ' min-h-screen' : ''}`}
                 style={{
                     ...(hero && { backgroundImage: `url("${hero}")` }),
                 }}
@@ -58,12 +58,12 @@ export default function BlogPost() {
             </div>
 
             <div
-                className="content-wrapper text-xl first-letter:text-7xl"
+                className="prose-wrapper"
                 // eslint-disable-next-line react/no-danger
                 dangerouslySetInnerHTML={{ __html: post.content || '' }}
             />
 
-            <div className="content-wrapper text-center text-4xl font-bold">
+            <div className="p-8 text-center text-4xl font-bold">
                 <Link to="/blog">Back to Blog</Link>
             </div>
         </>
