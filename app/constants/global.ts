@@ -10,10 +10,10 @@ export const SITE = {
             to: '/blog',
             label: 'Blog',
         },
-        {
-            to: '/lab',
-            label: 'Lab',
-        },
+        // {
+        //     to: '/lab',
+        //     label: 'Lab',
+        // },
         {
             to: '/about',
             label: 'About',
@@ -23,8 +23,8 @@ export const SITE = {
         //     label: 'Resume',
         // },
     ],
-    postsToFetch: 50,
-    postsPerPage: 5,
+    postsToFetch: 60,
+    postsPerPage: 12,
 };
 
 export const TAILWIND_COLORS = [
