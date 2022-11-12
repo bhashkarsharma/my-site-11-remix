@@ -36,14 +36,12 @@ export const getPosts = async ({ postsToFetch }: GetPostsConfig = {}): Promise<P
                 filterByFormula: '(Draft = FALSE())',
             })
             .eachPage(
-                (records, fetchNext: () => void) => {
+                (records) => {
                     resolve(records.map(convertRecordToPost));
                 },
 
                 (err: Error) => {
                     if (err) {
-                        console.error(err);
-
                         reject(err);
                     }
                 },
