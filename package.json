@@ -9,7 +9,7 @@
         "build:css": "tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css --minify",
         "dev": "concurrently \"npm run dev:css\" \"cross-env NODE_ENV=development PORT=4000 remix dev\"",
         "dev:css": "tailwindcss -i ./app/styles/tailwind.css -o ./app/tailwind.css --watch",
-        "postinstall": "rm .eslintignore && remix setup node && ln -s .gitignore .eslintignore",
+        "postinstall": "rm -f .eslintignore && remix setup node && ln -s .gitignore .eslintignore",
         "clean": "rm -rf .cache public/build app/tailwind.css",
         "lint": "eslint --fix .",
         "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,scss,md,json}'"
