@@ -1,8 +1,11 @@
 import type { FieldSet, Record } from 'airtable';
 import { marked } from 'marked';
+
 import { table } from './airtable';
 import { SITE } from '~/constants/global';
 import { Post, PostSchema } from '~/types/post';
+
+const DRAFT_FILTER = '(Draft = FALSE())';
 
 const convertRecordToPost = (record: Record<FieldSet>): Post => {
     const post = {
@@ -33,7 +36,7 @@ export const getPosts = async ({ postsToFetch }: GetPostsConfig = {}): Promise<P
             .select({
                 pageSize: postsToFetch ?? SITE.postsToFetch,
                 sort: [{ field: 'Published', direction: 'desc' }],
-                filterByFormula: '(Draft = FALSE())',
+                filterByFormula: DRAFT_FILTER,
             })
             .eachPage(
                 (records) => {
@@ -52,7 +55,7 @@ export const getPosts = async ({ postsToFetch }: GetPostsConfig = {}): Promise<P
 export const getPost = async (slug: string): Promise<Post | null> => {
     const records = await table
         .select({
-            filterByFormula: `AND(SEARCH("${slug}", {Slug}), (Draft = FALSE()))`,
+            filterByFormula: `AND(SEARCH("${slug}", {Slug}), ${DRAFT_FILTER})`,
         })
         .firstPage();
 
