@@ -23,7 +23,8 @@ const iconSize = '2.5em';
 
 function FooterLink({ href, children }: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
     return (
-        <a href={href} target="_blank" rel="noreferrer">
+        // eslint-disable-next-line react/no-invalid-html-attribute
+        <a href={href} target="_blank" rel="noreferrer me">
             {children}
         </a>
     );
