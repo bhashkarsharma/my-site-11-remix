@@ -1,5 +1,4 @@
-import { tw } from 'brise';
-import React from 'react';
+import type React from 'react';
 import { FaEnvelope, FaGithub, FaInstagram, FaMastodon, FaTwitter } from 'react-icons/fa';
 import { SITE } from '~/constants/global';
 
@@ -10,14 +9,6 @@ const LINKS = {
     mastodon: 'https://fosstodon.org/@bsharma',
     email: 'mailto:info@bhashkar.me',
 };
-
-const FooterWrapper = tw.footer`
-  p-8
-  pb-2
-  footer
-  bg-secondary
-  footer-center
-`;
 
 const iconSize = '2.5em';
 
@@ -32,7 +23,7 @@ function FooterLink({ href, children }: React.AnchorHTMLAttributes<HTMLAnchorEle
 
 export default function Footer() {
     return (
-        <FooterWrapper>
+        <footer className="p-8 pb-2 footer bg-secondary footer-center">
             <div className="grid grid-cols-5 gap-6">
                 <FooterLink href={LINKS.github}>
                     <FaGithub size={iconSize} />
@@ -51,6 +42,6 @@ export default function Footer() {
                 </FooterLink>
             </div>
             <p>Copyright &copy; 2022 {SITE.title}</p>
-        </FooterWrapper>
+        </footer>
     );
 }

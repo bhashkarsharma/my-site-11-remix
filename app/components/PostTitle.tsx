@@ -1,12 +1,20 @@
-import { tw } from 'brise';
+import type React from 'react';
 
-const PostTitle = tw.h2<{ color?: string }>`
-  mb-2
-  text-3xl
-  lg:text-5xl
-  capitalize
-  font-bold
-  ${(props) => (props.color ? `text-${props.color}-400` : '')}
-`;
+interface PostTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+    color: string;
+}
+
+const PostTitle: React.FC<PostTitleProps> = function PostTitle({ color, children }) {
+    return (
+        <h2
+            // eslint-disable-next-line tailwindcss/no-custom-classname
+            className={`mb-2 text-3xl lg:text-5xl capitalize font-bold ${
+                color ? `text-${color}-400` : ''
+            }`}
+        >
+            {children}
+        </h2>
+    );
+};
 
 export default PostTitle;
