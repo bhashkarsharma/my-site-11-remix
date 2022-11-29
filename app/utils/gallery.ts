@@ -1,47 +1,49 @@
+import { PUBLISHED_AND_DRAFT_FILTER, airtableBase } from './airtable';
 import type { FieldSet, Record } from 'airtable';
 import { marked } from 'marked';
 import invariant from 'tiny-invariant';
-import { PUBLISHED_AND_DRAFT_FILTER, airtableBase } from './airtable';
 import { SITE } from '~/constants/global';
-import { Post, PostSchema } from '~/types/post';
+import { GalleryItem, GalleryItemSchema } from '~/types/gallery';
 
-invariant(process.env.AIRTABLE_POSTS_TABLE_ID, 'AIRTABLE_POSTS_TABLE_ID is required');
-const postsTable = airtableBase(process.env.AIRTABLE_POSTS_TABLE_ID);
+invariant(process.env.AIRTABLE_GALLERY_TABLE_ID, 'AIRTABLE_GALLERY_TABLE_ID is required');
+const galleryTable = airtableBase(process.env.AIRTABLE_GALLERY_TABLE_ID);
 
-const convertRecordToPost = (record: Record<FieldSet>): Post => {
-    const post = {
+const convertRecordToGalleryItem = (record: Record<FieldSet>): GalleryItem => {
+    const item = {
         id: record.id,
         title: record.get('Title'),
-        contentType: record.get('ContentType'),
+        type: record.get('Type'),
         draft: record.get('Draft'),
         slug: record.get('Slug'),
         published: record.get('Published'),
-        byline: record.get('Byline'),
         hero: record.get('Hero'),
+        heroUrl: record.get('HeroUrl'),
         content: record.get('Content'),
-        tags: record.get('Tags'),
+        contentUrl: record.get('ContentUrl'),
     };
 
-    const parsed = PostSchema.parse(post);
+    const parsed = GalleryItemSchema.parse(item);
 
     return { ...parsed, content: marked(parsed.content || '') };
 };
 
-interface GetPostsConfig {
-    postsToFetch?: number;
+interface FetchGalleryConfig {
+    itemsToFetch?: number;
 }
 
-export const getPosts = async ({ postsToFetch }: GetPostsConfig = {}): Promise<Post[]> => {
+export const fetchGallery = async ({ itemsToFetch }: FetchGalleryConfig = {}): Promise<
+    GalleryItem[]
+> => {
     return new Promise((resolve, reject) => {
-        postsTable
+        galleryTable
             .select({
-                pageSize: postsToFetch ?? SITE.imagesToFetch,
+                pageSize: itemsToFetch ?? SITE.imagesToFetch,
                 sort: [{ field: 'Published', direction: 'desc' }],
                 filterByFormula: PUBLISHED_AND_DRAFT_FILTER,
             })
             .eachPage(
                 (records) => {
-                    resolve(records.map(convertRecordToPost));
+                    resolve(records.map(convertRecordToGalleryItem));
                 },
 
                 (err: Error) => {
@@ -53,8 +55,8 @@ export const getPosts = async ({ postsToFetch }: GetPostsConfig = {}): Promise<P
     });
 };
 
-export const getPost = async (slug: string): Promise<Post | null> => {
-    const records = await postsTable
+export const fetchGalleryItem = async (slug: string): Promise<GalleryItem | null> => {
+    const records = await galleryTable
         .select({
             filterByFormula: `AND(SEARCH("${slug}", {Slug}), ${PUBLISHED_AND_DRAFT_FILTER})`,
         })
@@ -62,5 +64,5 @@ export const getPost = async (slug: string): Promise<Post | null> => {
 
     const [first] = records;
 
-    return first ? convertRecordToPost(first) : null;
+    return first ? convertRecordToGalleryItem(first) : null;
 };

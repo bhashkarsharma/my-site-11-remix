@@ -4,12 +4,31 @@ import invariant from 'tiny-invariant';
 
 invariant(process.env.AIRTABLE_API_KEY, 'AIRTABLE_API_KEY is required');
 invariant(process.env.AIRTABLE_BASE_ID, 'AIRTABLE_BASE_ID is required');
-invariant(process.env.AIRTABLE_TABLE_NAME, 'AIRTABLE_TABLE_NAME is required');
 
 Airtable.configure({
     apiKey: process.env.AIRTABLE_API_KEY,
 });
 
-const base = Airtable.base(process.env.AIRTABLE_BASE_ID);
+export const airtableBase = Airtable.base(process.env.AIRTABLE_BASE_ID);
 
-export const table = base(process.env.AIRTABLE_TABLE_NAME);
+// posts that have been published until now, excluding drafts and scheduled posts
+export const PUBLISHED_AND_DRAFT_FILTER = 'AND(IS_BEFORE({Published}, NOW()), (Draft = FALSE()))';
+
+interface GetDateFilterProps {
+    field?: string;
+    pastDays?: number;
+}
+
+export const getDateFilter = (
+    { field, pastDays }: GetDateFilterProps = { field: 'Published', pastDays: 5 },
+) => `AND(
+    IS_BEFORE({${field}}, NOW()),
+    IS_AFTER(
+        {${field}},
+        DATETIME_DIFF(
+            NOW(),
+            -${pastDays},
+            'days'
+        )
+    )
+)`;

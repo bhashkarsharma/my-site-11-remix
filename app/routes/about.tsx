@@ -23,9 +23,8 @@ export default function About() {
                 I have been professionally writing code for almost 13 years, for a variety of
                 organizations, ranging from a 2-person startup running out of a living room, all the
                 way up to companies which are market leaders in their field, with thousands of
-                employees. I have worked across industries such as online publishing, IoT, ad-tech,
-                e-commerce, observability etc. I have built web frontends, backends, and native
-                apps. Lately I have been focusing mostly on web frontends.
+                employees. I have worked across industries like online publishing, IoT, ad-tech,
+                e-commerce, observability; and have built web frontends, backends, and native apps.
             </p>
             <p>Feel free to reach out / follow me at one of the platforms below.</p>
         </div>

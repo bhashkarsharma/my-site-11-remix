@@ -4,7 +4,7 @@ interface PostTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
     color: string;
 }
 
-const PostTitle: React.FC<PostTitleProps> = function PostTitle({ color, children }) {
+const PostTitle: React.FC<PostTitleProps> = function PostTitle({ color = 'magenta', children }) {
     return (
         <h2
             // eslint-disable-next-line tailwindcss/no-custom-classname

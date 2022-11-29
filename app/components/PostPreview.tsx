@@ -1,6 +1,6 @@
 import { Link } from 'remix';
 import { Post } from '~/types/post';
-import { getHeroImage, getPublishedLocaleDate } from '~/utils/post';
+import { getHeroImage, getPublishedLocaleDate } from '~/utils/common';
 
 interface PostPreviewProps {
     post: Post;

@@ -17,3 +17,7 @@ p {
 .post-date {
     @apply mt-2 text-slate-400;
 }
+
+.gallery.prose-wrapper iframe {
+    @apply w-full h-screen;
+}

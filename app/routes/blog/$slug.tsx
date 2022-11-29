@@ -4,7 +4,8 @@ import invariant from 'tiny-invariant';
 import PageTitle from '~/components/PageTitle';
 import { SITE, TAILWIND_COLORS } from '~/constants/global';
 import type { Post } from '~/types/post';
-import { getHeroImage, getPost, getPublishedLocaleDate } from '~/utils/post';
+import { getHeroImage, getPublishedLocaleDate } from '~/utils/common';
+import { getPost } from '~/utils/post';
 
 const getRandomColor = () => TAILWIND_COLORS[Math.floor(Math.random() * TAILWIND_COLORS.length)];
 
@@ -47,7 +48,8 @@ export default function BlogPost() {
                     ...(hero && { backgroundImage: `url("${hero}")` }),
                 }}
             >
-                <div className={`hero-overlay bg-opacity-60 ${!hero && `bg-${bgColor}-600`}`} />
+                {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
+                <div className={`bg-opacity/60 hero-overlay ${!hero && `bg-${bgColor}-600`}`} />
                 <div className="hero-content text-neutral-content">
                     <div>
                         <PageTitle>{post.title}</PageTitle>

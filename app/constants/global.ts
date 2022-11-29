@@ -10,6 +10,10 @@ export const SITE = {
             to: '/blog',
             label: 'Blog',
         },
+        {
+            to: '/gallery',
+            label: 'Gallery',
+        },
         // {
         //     to: '/lab',
         //     label: 'Lab',
@@ -25,6 +29,8 @@ export const SITE = {
     ],
     postsToFetch: 60,
     postsPerPage: 12,
+    imagesToFetch: 50,
+    imagesPerPage: 12,
 };
 
 export const TAILWIND_COLORS = [

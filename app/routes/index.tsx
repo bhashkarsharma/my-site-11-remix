@@ -1,9 +1,12 @@
-import { LoaderFunction, MetaFunction, useLoaderData } from 'remix';
+import { Link, LoaderFunction, MetaFunction, useLoaderData } from 'remix';
+import GalleryPreview from '~/components/GalleryPreview';
 import PageTitle from '~/components/PageTitle';
 import PostPreview from '~/components/PostPreview';
 import PostPreviewWrapper from '~/components/PostPreviewWrapper';
 import { SITE } from '~/constants/global';
+import { GalleryItem } from '~/types/gallery';
 import { Post } from '~/types/post';
+import { fetchGallery } from '~/utils/gallery';
 import { getPosts } from '~/utils/post';
 
 export const meta: MetaFunction = () => {
@@ -14,31 +17,47 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-    const latestPosts = await getPosts({ postsToFetch: 3 });
-    latestPosts.push({
-        id: 'blog',
-        title: 'All Posts',
-        contentType: 'post',
-        slug: '',
-    });
-    return { posts: latestPosts };
+    const posts = await getPosts({ postsToFetch: 4 });
+    const gallery = await fetchGallery({ itemsToFetch: 4 });
+
+    return { posts, gallery };
 };
 
 export default function Index() {
-    const { posts } = useLoaderData<{
+    const { posts, gallery } = useLoaderData<{
         posts: Post[];
+        gallery: GalleryItem[];
     }>();
 
     return (
         <div className="content-wrapper">
             <PageTitle>Welcome to my website.</PageTitle>
 
-            <div className="text-xl capitalize font-bold mt-16">Recent posts</div>
-            <PostPreviewWrapper>
-                {posts.map((post) => (
-                    <PostPreview key={post.id} post={post} />
-                ))}
-            </PostPreviewWrapper>
+            {posts.length && (
+                <>
+                    <Link to="/blog">
+                        <h2 className="text-xl capitalize font-bold mt-16">Recent posts</h2>
+                    </Link>
+                    <PostPreviewWrapper>
+                        {posts.map((post) => (
+                            <PostPreview key={post.id} post={post} />
+                        ))}
+                    </PostPreviewWrapper>
+                </>
+            )}
+
+            {gallery.length && (
+                <>
+                    <Link to="/gallery">
+                        <h2 className="text-xl capitalize font-bold mt-16">Gallery</h2>
+                    </Link>
+                    <PostPreviewWrapper>
+                        {gallery.map((item) => (
+                            <GalleryPreview key={item.id} item={item} />
+                        ))}
+                    </PostPreviewWrapper>
+                </>
+            )}
         </div>
     );
 }
