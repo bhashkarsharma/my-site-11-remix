@@ -31,6 +31,7 @@ export const SITE = {
     postsPerPage: 12,
     imagesToFetch: 50,
     imagesPerPage: 12,
+    ideasToFetch: 5,
 };
 
 export const TAILWIND_COLORS = [
