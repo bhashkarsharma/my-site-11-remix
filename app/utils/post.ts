@@ -31,7 +31,7 @@ interface GetPostsConfig {
     postsToFetch?: number;
 }
 
-export const getPosts = async ({ postsToFetch }: GetPostsConfig = {}): Promise<Post[]> => {
+export const fetchPosts = async ({ postsToFetch }: GetPostsConfig = {}): Promise<Post[]> => {
     return new Promise((resolve, reject) => {
         postsTable
             .select({
@@ -53,7 +53,7 @@ export const getPosts = async ({ postsToFetch }: GetPostsConfig = {}): Promise<P
     });
 };
 
-export const getPost = async (slug: string): Promise<Post | null> => {
+export const fetchPost = async (slug: string): Promise<Post | null> => {
     const records = await postsTable
         .select({
             filterByFormula: `AND(SEARCH("${slug}", {Slug}), ${PUBLISHED_AND_DRAFT_FILTER})`,

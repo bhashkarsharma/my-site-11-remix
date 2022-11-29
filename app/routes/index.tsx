@@ -7,7 +7,7 @@ import { SITE } from '~/constants/global';
 import { GalleryItem } from '~/types/gallery';
 import { Post } from '~/types/post';
 import { fetchGallery } from '~/utils/gallery';
-import { getPosts } from '~/utils/post';
+import { fetchPosts } from '~/utils/post';
 
 export const meta: MetaFunction = () => {
     return {
@@ -17,7 +17,7 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-    const posts = await getPosts({ postsToFetch: 4 });
+    const posts = await fetchPosts({ postsToFetch: 4 });
     const gallery = await fetchGallery({ itemsToFetch: 4 });
 
     return { posts, gallery };

@@ -5,7 +5,7 @@ import PageTitle from '~/components/PageTitle';
 import { SITE, TAILWIND_COLORS } from '~/constants/global';
 import type { Post } from '~/types/post';
 import { getHeroImage, getPublishedLocaleDate } from '~/utils/common';
-import { getPost } from '~/utils/post';
+import { fetchPost } from '~/utils/post';
 
 const getRandomColor = () => TAILWIND_COLORS[Math.floor(Math.random() * TAILWIND_COLORS.length)];
 
@@ -25,7 +25,7 @@ export const meta: MetaFunction = ({ data }) => {
 export const loader: LoaderFunction = async ({ params: { slug } }) => {
     invariant(slug, 'expected params.slug');
 
-    const post = await getPost(slug);
+    const post = await fetchPost(slug);
 
     if (!post) {
         throw new Response('Not Found', { status: 404 });

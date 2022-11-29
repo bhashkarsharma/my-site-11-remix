@@ -6,7 +6,7 @@ import PostPreviewWrapper from '~/components/PostPreviewWrapper';
 import PostTitle from '~/components/PostTitle';
 import { SITE } from '~/constants/global';
 import type { Post } from '~/types/post';
-import { getPosts } from '~/utils/post';
+import { fetchPosts } from '~/utils/post';
 
 export const headers: HeadersFunction = () => {
     return {
@@ -26,7 +26,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const pageParam = url.searchParams.get('p');
     const currentPage = Number(pageParam) || 1;
 
-    const allPosts = await getPosts();
+    const allPosts = await fetchPosts();
 
     const startIndex = Math.min(
         Math.max(0, allPosts.length),
