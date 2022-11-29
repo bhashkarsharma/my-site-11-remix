@@ -17,7 +17,7 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = async () => {
-    const posts = await fetchPosts({ postsToFetch: 4 });
+    const posts = await fetchPosts({ itemsToFetch: 4 });
     const gallery = await fetchGallery({ itemsToFetch: 4 });
 
     return { posts, gallery };

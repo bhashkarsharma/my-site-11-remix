@@ -28,14 +28,14 @@ const convertRecordToPost = (record: Record<FieldSet>): Post => {
 };
 
 interface GetPostsConfig {
-    postsToFetch?: number;
+    itemsToFetch?: number;
 }
 
-export const fetchPosts = async ({ postsToFetch }: GetPostsConfig = {}): Promise<Post[]> => {
+export const fetchPosts = async ({ itemsToFetch }: GetPostsConfig = {}): Promise<Post[]> => {
     return new Promise((resolve, reject) => {
         postsTable
             .select({
-                pageSize: postsToFetch ?? SITE.imagesToFetch,
+                pageSize: itemsToFetch ?? SITE.imagesToFetch,
                 sort: [{ field: 'Published', direction: 'desc' }],
                 filterByFormula: PUBLISHED_AND_DRAFT_FILTER,
             })
