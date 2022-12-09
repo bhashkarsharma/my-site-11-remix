@@ -43,7 +43,11 @@ export const fetchGallery = async ({ itemsToFetch }: FetchGalleryConfig = {}): P
             })
             .eachPage(
                 (records) => {
-                    resolve(records.map(convertRecordToGalleryItem));
+                    try {
+                        resolve(records.map(convertRecordToGalleryItem));
+                    } catch (err) {
+                        console.error(err);
+                    }
                 },
 
                 (err: Error) => {

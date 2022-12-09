@@ -41,7 +41,11 @@ export const fetchPosts = async ({ itemsToFetch }: GetPostsConfig = {}): Promise
             })
             .eachPage(
                 (records) => {
-                    resolve(records.map(convertRecordToPost));
+                    try {
+                        resolve(records.map(convertRecordToPost));
+                    } catch (err) {
+                        console.error(err);
+                    }
                 },
 
                 (err: Error) => {
