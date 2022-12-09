@@ -18,6 +18,6 @@ p {
     @apply mt-2 text-slate-400;
 }
 
-.gallery.prose-wrapper iframe {
+.gallery.demo-wrapper iframe {
     @apply w-full h-screen;
 }

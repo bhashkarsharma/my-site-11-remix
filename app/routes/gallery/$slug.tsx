@@ -1,14 +1,16 @@
 /* eslint-disable tailwindcss/no-custom-classname */
+import { useState } from 'react';
 import { Link, useLoaderData } from 'remix';
 import type { HeadersFunction, LoaderFunction, MetaFunction } from 'remix';
 import invariant from 'tiny-invariant';
 import PageTitle from '~/components/PageTitle';
-import { SITE, TAILWIND_COLORS } from '~/constants/global';
+import { SITE } from '~/constants/global';
+import useTimeout from '~/hooks/useTimeout';
 import { GalleryItem } from '~/types/gallery';
 import { getHeroImage, getPublishedLocaleDate } from '~/utils/common';
 import { fetchGalleryItem } from '~/utils/gallery';
 
-const getRandomColor = () => TAILWIND_COLORS[Math.floor(Math.random() * TAILWIND_COLORS.length)];
+const EXTERNAL_BUTTON_SHOW_DELAY = 4000; // ms
 
 export const headers: HeadersFunction = () => {
     return {
@@ -25,7 +27,6 @@ export const meta: MetaFunction = ({ data }) => {
 
 type LoaderData = {
     item: Awaited<Promise<GalleryItem>>;
-    bgColor: string;
 };
 
 export const loader: LoaderFunction = async ({ params: { slug } }) => {
@@ -37,14 +38,17 @@ export const loader: LoaderFunction = async ({ params: { slug } }) => {
         throw new Response('Not Found', { status: 404 });
     }
 
-    const bgColor = getRandomColor();
-
-    return { item, bgColor };
+    return { item };
 };
 
 export default function GalleryItemView() {
-    const { item, bgColor } = useLoaderData() as LoaderData;
+    const { item } = useLoaderData() as LoaderData;
     const hero = getHeroImage(item);
+    const [showExternalButton, setShowExternalButton] = useState(false);
+
+    useTimeout(() => {
+        setShowExternalButton(true);
+    }, EXTERNAL_BUTTON_SHOW_DELAY);
 
     return (
         <>
@@ -54,7 +58,7 @@ export default function GalleryItemView() {
                     ...(hero && { backgroundImage: `url("${hero}")` }),
                 }}
             >
-                <div className={`bg-opacity/60 hero-overlay ${!hero && `bg-${bgColor}/600`}`} />
+                <div className="bg-opacity/60 hero-overlay" />
                 <div className="hero-content text-neutral-content">
                     <div>
                         <PageTitle>{item.title}</PageTitle>
@@ -65,12 +69,18 @@ export default function GalleryItemView() {
             </div>
 
             {item.contentUrl ? (
-                <div className="gallery prose-wrapper text-center">
+                <div className="gallery demo-wrapper text-center">
+                    {showExternalButton && (
+                        <a
+                            className="btn btn-warning m-6"
+                            target="_blank"
+                            rel="noreferrer"
+                            href={item.contentUrl}
+                        >
+                            Content not loading? Visit external website
+                        </a>
+                    )}
                     <iframe src={item.contentUrl} title={item.title} />
-
-                    <a target="_blank" rel="noreferrer" href={item.contentUrl}>
-                        Visit external website
-                    </a>
                 </div>
             ) : (
                 <div

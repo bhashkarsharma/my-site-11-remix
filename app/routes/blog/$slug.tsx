@@ -2,12 +2,10 @@ import { Link, useLoaderData } from 'remix';
 import type { HeadersFunction, LoaderFunction, MetaFunction } from 'remix';
 import invariant from 'tiny-invariant';
 import PageTitle from '~/components/PageTitle';
-import { SITE, TAILWIND_COLORS } from '~/constants/global';
+import { SITE } from '~/constants/global';
 import type { Post } from '~/types/post';
 import { getHeroImage, getPublishedLocaleDate } from '~/utils/common';
 import { fetchPost } from '~/utils/post';
-
-const getRandomColor = () => TAILWIND_COLORS[Math.floor(Math.random() * TAILWIND_COLORS.length)];
 
 export const headers: HeadersFunction = () => {
     return {
@@ -24,7 +22,6 @@ export const meta: MetaFunction = ({ data }) => {
 
 type LoaderData = {
     post: Awaited<Promise<Post>>;
-    bgColor: string;
 };
 
 export const loader: LoaderFunction = async ({ params: { slug } }) => {
@@ -36,13 +33,11 @@ export const loader: LoaderFunction = async ({ params: { slug } }) => {
         throw new Response('Not Found', { status: 404 });
     }
 
-    const bgColor = getRandomColor();
-
-    return { post, bgColor };
+    return { post };
 };
 
 export default function BlogPost() {
-    const { post, bgColor } = useLoaderData() as LoaderData;
+    const { post } = useLoaderData() as LoaderData;
     const hero = getHeroImage(post);
 
     return (
@@ -54,7 +49,7 @@ export default function BlogPost() {
                 }}
             >
                 {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
-                <div className={`bg-opacity/60 hero-overlay ${!hero && `bg-${bgColor}-600`}`} />
+                <div className="bg-opacity/60 hero-overlay" />
                 <div className="hero-content text-neutral-content">
                     <div>
                         <PageTitle>{post.title}</PageTitle>
