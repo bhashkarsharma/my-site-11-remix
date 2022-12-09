@@ -18,9 +18,14 @@ export const headers: HeadersFunction = () => {
 
 export const meta: MetaFunction = ({ data }) => {
     return {
-        title: `${data?.post?.title} - ${SITE.title}`,
-        description: data?.post?.byline ?? 'My gallery',
+        title: `${data?.item?.title} - ${SITE.title}`,
+        description: data?.item?.byline ?? 'My gallery',
     };
+};
+
+type LoaderData = {
+    item: Awaited<Promise<GalleryItem>>;
+    bgColor: string;
 };
 
 export const loader: LoaderFunction = async ({ params: { slug } }) => {
@@ -38,7 +43,7 @@ export const loader: LoaderFunction = async ({ params: { slug } }) => {
 };
 
 export default function GalleryItemView() {
-    const { item, bgColor } = useLoaderData<{ item: GalleryItem; bgColor: string }>();
+    const { item, bgColor } = useLoaderData() as LoaderData;
     const hero = getHeroImage(item);
 
     return (

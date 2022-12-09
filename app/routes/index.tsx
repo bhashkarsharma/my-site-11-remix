@@ -19,6 +19,12 @@ export const meta: MetaFunction = () => {
     };
 };
 
+type LoaderData = {
+    posts: Awaited<Promise<Post[]>>;
+    gallery: Awaited<Promise<GalleryItem[]>>;
+    ideas: Awaited<Promise<Idea[]>>;
+};
+
 export const loader: LoaderFunction = async () => {
     const posts = await fetchPosts({ itemsToFetch: 4 });
     const gallery = await fetchGallery({ itemsToFetch: 4 });
@@ -28,11 +34,7 @@ export const loader: LoaderFunction = async () => {
 };
 
 export default function Index() {
-    const { posts, gallery, ideas } = useLoaderData<{
-        posts: Post[];
-        gallery: GalleryItem[];
-        ideas: Idea[];
-    }>();
+    const { posts, gallery, ideas } = useLoaderData() as LoaderData;
 
     return (
         <div className="content-wrapper">

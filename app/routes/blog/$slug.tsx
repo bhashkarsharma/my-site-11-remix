@@ -22,6 +22,11 @@ export const meta: MetaFunction = ({ data }) => {
     };
 };
 
+type LoaderData = {
+    post: Awaited<Promise<Post>>;
+    bgColor: string;
+};
+
 export const loader: LoaderFunction = async ({ params: { slug } }) => {
     invariant(slug, 'expected params.slug');
 
@@ -37,7 +42,7 @@ export const loader: LoaderFunction = async ({ params: { slug } }) => {
 };
 
 export default function BlogPost() {
-    const { post, bgColor } = useLoaderData<{ post: Post; bgColor: string }>();
+    const { post, bgColor } = useLoaderData() as LoaderData;
     const hero = getHeroImage(post);
 
     return (

@@ -21,6 +21,13 @@ export const meta: MetaFunction = () => {
     };
 };
 
+type LoaderData = {
+    posts: Awaited<Promise<GalleryItem[]>>;
+    currentPage: number;
+    isFirstPage: boolean;
+    isLastPage: boolean;
+};
+
 export const loader: LoaderFunction = async ({ request }) => {
     const url = new URL(request.url);
     const pageParam = url.searchParams.get('p');
@@ -43,12 +50,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Gallery() {
-    const { posts, currentPage, isFirstPage, isLastPage } = useLoaderData<{
-        posts: GalleryItem[];
-        currentPage: number;
-        isFirstPage: boolean;
-        isLastPage: boolean;
-    }>();
+    const { posts, currentPage, isFirstPage, isLastPage } = useLoaderData() as LoaderData;
 
     return (
         <div className="content-wrapper">
