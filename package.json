@@ -12,7 +12,8 @@
         "postinstall": "rm -f .eslintignore && remix setup node && ln -s .gitignore .eslintignore",
         "clean": "rm -rf .cache public/build app/tailwind.css",
         "lint:fix": "eslint --fix ./app",
-        "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,scss,md,json}'"
+        "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,scss,md,json}'",
+        "typecheck": "tsc"
     },
     "dependencies": {
         "@remix-run/react": "^1.7.5",
