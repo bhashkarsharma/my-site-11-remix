@@ -1,9 +1,8 @@
 import { Link, useLoaderData } from 'remix';
-import type { HeadersFunction, LoaderFunction, MetaFunction } from 'remix';
+import type { HeadersFunction, LoaderArgs, MetaFunction } from 'remix';
 import invariant from 'tiny-invariant';
 import PageTitle from '~/components/PageTitle';
 import { SITE } from '~/constants/global';
-import type { Post } from '~/types/post';
 import { getHeroImage, getPublishedLocaleDate } from '~/utils/common';
 import { fetchPost } from '~/utils/post';
 
@@ -20,11 +19,7 @@ export const meta: MetaFunction = ({ data }) => {
     };
 };
 
-type LoaderData = {
-    post: Awaited<Promise<Post>>;
-};
-
-export const loader: LoaderFunction = async ({ params: { slug } }) => {
+export const loader = async ({ params: { slug } }: LoaderArgs) => {
     invariant(slug, 'expected params.slug');
 
     const post = await fetchPost(slug);
@@ -37,7 +32,7 @@ export const loader: LoaderFunction = async ({ params: { slug } }) => {
 };
 
 export default function BlogPost() {
-    const { post } = useLoaderData() as LoaderData;
+    const { post } = useLoaderData<typeof loader>();
     const hero = getHeroImage(post);
 
     return (

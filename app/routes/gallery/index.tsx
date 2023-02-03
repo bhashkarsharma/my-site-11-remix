@@ -1,11 +1,10 @@
-import type { HeadersFunction, LoaderFunction, MetaFunction } from 'remix';
+import type { HeadersFunction, LoaderArgs, MetaFunction } from 'remix';
 import { Link, useLoaderData } from 'remix';
 import GalleryPreview from '~/components/GalleryPreview';
 import PageTitle from '~/components/PageTitle';
 import PostPreviewWrapper from '~/components/PostPreviewWrapper';
 import PostTitle from '~/components/PostTitle';
 import { SITE } from '~/constants/global';
-import { GalleryItem } from '~/types/gallery';
 import { fetchGallery } from '~/utils/gallery';
 
 export const headers: HeadersFunction = () => {
@@ -21,14 +20,7 @@ export const meta: MetaFunction = () => {
     };
 };
 
-type LoaderData = {
-    posts: Awaited<Promise<GalleryItem[]>>;
-    currentPage: number;
-    isFirstPage: boolean;
-    isLastPage: boolean;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
     const url = new URL(request.url);
     const pageParam = url.searchParams.get('p');
     const currentPage = Number(pageParam) || 1;
@@ -50,7 +42,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function Gallery() {
-    const { posts, currentPage, isFirstPage, isLastPage } = useLoaderData() as LoaderData;
+    const { posts, currentPage, isFirstPage, isLastPage } = useLoaderData<typeof loader>();
 
     return (
         <div className="content-wrapper">

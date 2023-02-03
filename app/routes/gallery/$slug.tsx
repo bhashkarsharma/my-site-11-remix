@@ -1,12 +1,11 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 import { useState } from 'react';
 import { Link, useLoaderData } from 'remix';
-import type { HeadersFunction, LoaderFunction, MetaFunction } from 'remix';
+import type { HeadersFunction, LoaderArgs, MetaFunction } from 'remix';
 import invariant from 'tiny-invariant';
 import PageTitle from '~/components/PageTitle';
 import { SITE } from '~/constants/global';
 import useTimeout from '~/hooks/useTimeout';
-import { GalleryItem } from '~/types/gallery';
 import { getHeroImage, getPublishedLocaleDate } from '~/utils/common';
 import { fetchGalleryItem } from '~/utils/gallery';
 
@@ -25,11 +24,7 @@ export const meta: MetaFunction = ({ data }) => {
     };
 };
 
-type LoaderData = {
-    item: Awaited<Promise<GalleryItem>>;
-};
-
-export const loader: LoaderFunction = async ({ params: { slug } }) => {
+export const loader = async ({ params: { slug } }: LoaderArgs) => {
     invariant(slug, 'expected params.slug');
 
     const item = await fetchGalleryItem(slug);
@@ -42,7 +37,7 @@ export const loader: LoaderFunction = async ({ params: { slug } }) => {
 };
 
 export default function GalleryItemView() {
-    const { item } = useLoaderData() as LoaderData;
+    const { item } = useLoaderData<typeof loader>();
     const hero = getHeroImage(item);
     const [showExternalButton, setShowExternalButton] = useState(false);
 

@@ -1,10 +1,10 @@
 import type React from 'react';
 
 interface PostTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
-    color: string;
+    color?: string;
 }
 
-const PostTitle: React.FC<PostTitleProps> = function PostTitle({ color = 'magenta', children }) {
+const PostTitle: React.FC<PostTitleProps> = function PostTitle({ color, children }) {
     return (
         <h2
             // eslint-disable-next-line tailwindcss/no-custom-classname
@@ -15,6 +15,10 @@ const PostTitle: React.FC<PostTitleProps> = function PostTitle({ color = 'magent
             {children}
         </h2>
     );
+};
+
+PostTitle.defaultProps = {
+    color: 'magenta',
 };
 
 export default PostTitle;
