@@ -41,7 +41,9 @@ export default function Footer() {
                     <FaEnvelope size={iconSize} />
                 </FooterLink>
             </div>
-            <p>Copyright &copy; 2022 {SITE.title}</p>
+            <p>
+                Copyright &copy; {new Date().getFullYear()} {SITE.title}
+            </p>
         </footer>
     );
 }
