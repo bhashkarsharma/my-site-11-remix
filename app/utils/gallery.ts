@@ -1,14 +1,103 @@
-import { PUBLISHED_AND_DRAFT_FILTER, airtableBase } from './airtable';
-import type { FieldSet, Record } from 'airtable';
+import type { Record as AirtableRecord, FieldSet } from 'airtable';
+import { JSDOM } from 'jsdom';
 import { marked } from 'marked';
 import invariant from 'tiny-invariant';
+import { PUBLISHED_AND_DRAFT_FILTER, airtableBase } from './airtable';
 import { SITE } from '~/constants/global';
-import { GalleryItem, GalleryItemSchema } from '~/types/gallery';
+import {
+    GalleryItem,
+    GalleryItemSchema,
+    P5SketchMetadata,
+    P5SketchMetadataSchema,
+} from '~/types/gallery';
 
 invariant(process.env.AIRTABLE_GALLERY_TABLE_ID, 'AIRTABLE_GALLERY_TABLE_ID is required');
 const galleryTable = airtableBase(process.env.AIRTABLE_GALLERY_TABLE_ID);
 
-const convertRecordToGalleryItem = (record: Record<FieldSet>): GalleryItem => {
+export const P5_EDITOR_BASE = `https://editor.p5js.org`;
+const P5_PROJECT_URL = `${P5_EDITOR_BASE}/editor/bhashkarsharma/projects`;
+const P5_INDEX_FILENAME = 'index.html';
+
+// fetch sketch assets from editor.p5js.org
+export const fetchMetadataFromP5jsEditor = async (
+    url: string,
+): Promise<P5SketchMetadata | Record<string, never>> => {
+    const [, sketchId] = url.split('full/');
+
+    if (!sketchId) {
+        return {};
+    }
+
+    const projectUrl = `${P5_PROJECT_URL}/${sketchId}`;
+
+    try {
+        const p5SketchResponse = await fetch(projectUrl, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const response = await p5SketchResponse.json();
+
+        return P5SketchMetadataSchema.parse(response);
+    } catch (err) {
+        console.error(err);
+    }
+
+    return {};
+};
+
+export const getSrcDocFromP5Sketch = async (url: string) => {
+    let indexHtml = '';
+
+    const metadata = await fetchMetadataFromP5jsEditor(url);
+    const indexFile = metadata.files.find((file) => file.name === P5_INDEX_FILENAME);
+
+    if (!indexFile?.content) {
+        return indexHtml;
+    }
+
+    try {
+        const dom = new JSDOM(indexFile.content);
+        const styleTags =
+            dom.window.document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]');
+        const scriptTags = dom.window.document.querySelectorAll<HTMLScriptElement>('script');
+
+        for (let i = 0; i < styleTags.length; i += 1) {
+            const tag = styleTags[i];
+            const cssFile = metadata.files.find((file) => file.name === tag.href);
+            if (cssFile) {
+                const styleTag = dom.window.document.createElement('style');
+                styleTag.innerHTML = cssFile.content;
+
+                tag.after(styleTag);
+                tag.remove();
+            }
+        }
+
+        for (let i = 0; i < scriptTags.length; i += 1) {
+            const tag = scriptTags[i];
+            const jsFile = metadata.files.find((file) => file.name === tag.src);
+            if (jsFile) {
+                const scriptTag = dom.window.document.createElement('script');
+                scriptTag.innerHTML = jsFile.content;
+
+                tag.after(scriptTag);
+                tag.remove();
+            }
+        }
+
+        indexHtml = dom.serialize();
+    } catch (err) {
+        console.error(err);
+    }
+    return indexHtml;
+};
+
+const convertAirtableRecordToGalleryItem = async (
+    record: AirtableRecord<FieldSet>,
+    expand: boolean,
+): Promise<GalleryItem> => {
     const item = {
         id: record.id,
         title: record.get('Title'),
@@ -23,8 +112,12 @@ const convertRecordToGalleryItem = (record: Record<FieldSet>): GalleryItem => {
     };
 
     const parsed = GalleryItemSchema.parse(item);
+    const content =
+        expand && parsed.contentUrl?.includes(P5_EDITOR_BASE)
+            ? await getSrcDocFromP5Sketch(parsed.contentUrl)
+            : marked(parsed.content || '');
 
-    return { ...parsed, content: marked(parsed.content || '') };
+    return { ...parsed, content };
 };
 
 interface FetchGalleryConfig {
@@ -44,7 +137,17 @@ export const fetchGallery = async ({ itemsToFetch }: FetchGalleryConfig = {}): P
             .eachPage(
                 (records) => {
                     try {
-                        resolve(records.map(convertRecordToGalleryItem));
+                        const result: GalleryItem[] = [];
+
+                        records.forEach(async (record) => {
+                            const galleryItem = await convertAirtableRecordToGalleryItem(
+                                record,
+                                false,
+                            );
+                            result.push(galleryItem);
+                        });
+
+                        resolve(result);
                     } catch (err) {
                         console.error(err);
                     }
@@ -68,5 +171,5 @@ export const fetchGalleryItem = async (slug: string): Promise<GalleryItem | null
 
     const [first] = records;
 
-    return first ? convertRecordToGalleryItem(first) : null;
+    return first ? convertAirtableRecordToGalleryItem(first, true) : null;
 };

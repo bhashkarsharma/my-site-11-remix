@@ -65,7 +65,7 @@ export default function GalleryItemView() {
 
             {item.contentUrl ? (
                 <div className="gallery demo-wrapper text-center">
-                    {showExternalButton && (
+                    {showExternalButton && !item.content && (
                         <a
                             className="btn btn-warning m-6"
                             target="_blank"
@@ -75,7 +75,7 @@ export default function GalleryItemView() {
                             Content not loading? Visit external website
                         </a>
                     )}
-                    <iframe src={item.contentUrl} title={item.title} />
+                    <iframe src={item.contentUrl} srcDoc={item.content} title={item.title} />
                 </div>
             ) : (
                 <div
