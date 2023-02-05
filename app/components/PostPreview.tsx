@@ -1,4 +1,5 @@
-import { Link } from 'remix';
+import PreviewWrapper from './PreviewWrapper';
+import { Link, useNavigate } from 'remix';
 import { Post } from '~/types/post';
 import { getHeroImage, getPublishedLocaleDate } from '~/utils/common';
 
@@ -7,10 +8,14 @@ interface PostPreviewProps {
 }
 
 export default function PostPreview({ post }: PostPreviewProps) {
+    const navigate = useNavigate();
     const hero = getHeroImage(post);
+    const link = `/blog/${post.slug}`;
+
+    const handleClick = () => navigate(link);
 
     return (
-        <div key={post.id} className="card bg-base-100 shadow-xl image-full">
+        <PreviewWrapper key={post.id} onClick={handleClick}>
             {hero && (
                 <figure>
                     <img src={hero} alt={post.title} />
@@ -25,13 +30,13 @@ export default function PostPreview({ post }: PostPreviewProps) {
                     </div>
                 ))}
                 <div className="card-actions justify-end">
-                    <Link to={`/blog/${post.slug}`}>
+                    <Link to={link}>
                         <button type="button" className="btn btn-primary">
                             Read Now
                         </button>
                     </Link>
                 </div>
             </div>
-        </div>
+        </PreviewWrapper>
     );
 }

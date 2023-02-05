@@ -43,7 +43,7 @@ export default function Index() {
             {posts.length > 0 && (
                 <>
                     <Link to="/blog">
-                        <h2 className="text-xl capitalize font-bold mt-16">Recent posts</h2>
+                        <h2 className="text-2xl capitalize font-bold mt-16">Recent posts</h2>
                     </Link>
                     <PostPreviewWrapper>
                         {posts.map((post) => (
@@ -56,7 +56,7 @@ export default function Index() {
             {gallery.length > 0 && (
                 <>
                     <Link to="/gallery">
-                        <h2 className="text-xl capitalize font-bold mt-16">Gallery</h2>
+                        <h2 className="text-2xl capitalize font-bold mt-16">Gallery</h2>
                     </Link>
                     <PostPreviewWrapper>
                         {gallery.map((item) => (

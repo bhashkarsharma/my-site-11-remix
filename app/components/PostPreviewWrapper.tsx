@@ -4,9 +4,9 @@ const PostPreviewWrapper: React.FC<React.HTMLAttributes<HTMLHeadingElement>> = f
     children,
 }) {
     return (
-        <h1 className="my-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
+        <div className="my-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
             {children}
-        </h1>
+        </div>
     );
 };
 
