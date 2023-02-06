@@ -43,8 +43,8 @@ export default function BlogPost() {
                     ...(hero && { backgroundImage: `url("${hero}")` }),
                 }}
             >
-                {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
-                <div className="bg-opacity/60 hero-overlay" />
+                {/* eslint-disable-next-line tailwindcss/migration-from-tailwind-2 */}
+                <div className="bg-opacity-80 hero-overlay" />
                 <div className="hero-content text-neutral-content">
                     <div>
                         <PageTitle>{post.title}</PageTitle>
