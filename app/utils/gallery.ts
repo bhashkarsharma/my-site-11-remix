@@ -14,21 +14,21 @@ import {
 invariant(process.env.AIRTABLE_GALLERY_TABLE_ID, 'AIRTABLE_GALLERY_TABLE_ID is required');
 const galleryTable = airtableBase(process.env.AIRTABLE_GALLERY_TABLE_ID);
 
-export const P5_EDITOR_BASE = `https://editor.p5js.org`;
-const P5_PROJECT_URL = `${P5_EDITOR_BASE}/editor/bhashkarsharma/projects`;
-const P5_INDEX_FILENAME = 'index.html';
+const P5_EDITOR_BASE = `https://editor.p5js.org`;
+const P5_URL_REGEX = /p5js.org\/([\w+]*)\/full\/([\w+]*)/;
 
 // fetch sketch assets from editor.p5js.org
 export const fetchMetadataFromP5jsEditor = async (
     url: string,
 ): Promise<P5SketchMetadata | Record<string, never>> => {
-    const [, sketchId] = url.split('full/');
+    const matches = url.match(P5_URL_REGEX);
 
-    if (!sketchId) {
+    if (!matches || matches?.length < 3) {
         return {};
     }
+    const [, userId, sketchId] = matches;
 
-    const projectUrl = `${P5_PROJECT_URL}/${sketchId}`;
+    const projectUrl = `${P5_EDITOR_BASE}/editor/${userId}/projects/${sketchId}`;
 
     try {
         const p5SketchResponse = await fetch(projectUrl, {
@@ -51,7 +51,7 @@ export const getSrcDocFromP5Sketch = async (url: string) => {
     let indexHtml = '';
 
     const metadata = await fetchMetadataFromP5jsEditor(url);
-    const indexFile = metadata.files.find((file) => file.name === P5_INDEX_FILENAME);
+    const indexFile = metadata.files.find((file) => file.name === 'index.html');
 
     if (!indexFile?.content) {
         return indexHtml;

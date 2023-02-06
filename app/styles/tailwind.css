@@ -15,7 +15,7 @@ p {
 }
 
 .post-date {
-    @apply mt-2 text-slate-400;
+    @apply mt-2;
 }
 
 .gallery.demo-wrapper {
