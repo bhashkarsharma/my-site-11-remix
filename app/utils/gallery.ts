@@ -15,7 +15,7 @@ invariant(process.env.AIRTABLE_GALLERY_TABLE_ID, 'AIRTABLE_GALLERY_TABLE_ID is r
 const galleryTable = airtableBase(process.env.AIRTABLE_GALLERY_TABLE_ID);
 
 const P5_EDITOR_BASE = `https://editor.p5js.org`;
-const P5_URL_REGEX = /p5js.org\/([\w+]*)\/full\/([\w+]*)/;
+const P5_URL_REGEX = /p5js.org\/([\w-]+)\/full\/([\w-]+)/;
 
 // fetch sketch assets from editor.p5js.org
 export const fetchMetadataFromP5jsEditor = async (
@@ -49,8 +49,12 @@ export const fetchMetadataFromP5jsEditor = async (
 
 export const getSrcDocFromP5Sketch = async (url: string) => {
     let indexHtml = '';
-
     const metadata = await fetchMetadataFromP5jsEditor(url);
+
+    if (Object.keys(metadata).length === 0) {
+        return indexHtml;
+    }
+
     const indexFile = metadata.files.find((file) => file.name === 'index.html');
 
     if (!indexFile?.content) {
