@@ -19,7 +19,7 @@ p {
 }
 
 .gallery.demo-wrapper {
-    @apply px-16 py-4;
+    @apply p-4;
 }
 
 .gallery.demo-wrapper iframe {

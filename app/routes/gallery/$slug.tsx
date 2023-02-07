@@ -65,7 +65,7 @@ export default function GalleryItemView() {
             </div>
 
             {item.contentUrl ? (
-                <div className="gallery demo-wrapper text-center">
+                <div className="gallery demo-wrapper">
                     {showExternalButton && !item.content && (
                         <a
                             className="btn btn-warning m-6"

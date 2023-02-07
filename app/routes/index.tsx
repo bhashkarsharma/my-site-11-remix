@@ -20,10 +20,12 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async () => {
-    const posts = await fetchPosts({ itemsToFetch: 4 });
-    const gallery = await fetchGallery({ itemsToFetch: 4 });
-    const ideas = await fetchIdeas({ itemsToFetch: 4 });
-    const sketch = await getSrcDocFromP5Sketch(HOME_BACKGROUND_URL);
+    const [posts, gallery, ideas, sketch] = await Promise.all([
+        fetchPosts({ itemsToFetch: 4 }),
+        fetchGallery({ itemsToFetch: 4 }),
+        fetchIdeas({ itemsToFetch: 4 }),
+        getSrcDocFromP5Sketch(HOME_BACKGROUND_URL),
+    ]);
 
     return { posts, gallery, ideas, sketch };
 };
