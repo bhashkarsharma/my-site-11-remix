@@ -34,7 +34,8 @@ export default function Index() {
     return (
         <CanvasBackground sketch={sketch} sketchUrl={HOME_BACKGROUND_URL} title="Home">
             <div className="content-wrapper">
-                <PageTitle>Words, Views, Bits & Brushes.</PageTitle>
+                <PageTitle>A World of Words, Code, and Art</PageTitle>
+                <p>Discovering My Digital Expressions.</p>
 
                 {posts.length > 0 && (
                     <>

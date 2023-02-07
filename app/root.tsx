@@ -29,7 +29,9 @@ export function ErrorBoundary() {
                     <PageTitle>There was an error!</PageTitle>
 
                     <p>
-                        Please refresh the page, or <Link to="/">go back Home</Link>.
+                        Whoops! Looks like our server just tripped and fell. We're working on
+                        getting it back up and running. Please refresh the page, or
+                        <Link to="/">go back Home</Link>.
                     </p>
                 </div>
             </Layout>
@@ -44,11 +46,19 @@ export function CatchBoundary() {
     switch (caught.status) {
         case 401:
             message = (
-                <p>Oops! Looks like you tried to visit a page that you do not have access to.</p>
+                <p>
+                    Looks like you need to be on the list to access this page. Maybe try getting a
+                    VIP pass next time?
+                </p>
             );
             break;
         case 404:
-            message = <p>Oops! Looks like you tried to visit a page that does not exist.</p>;
+            message = (
+                <p>
+                    Oops! Looks like you took a wrong turn somewhere. But don't worry, the only
+                    thing missing is the page you were looking for.
+                </p>
+            );
             break;
 
         default:
@@ -56,7 +66,7 @@ export function CatchBoundary() {
     }
 
     return (
-        <Document title={`${caught.status} ${caught.statusText}`}>
+        <Document title={`${caught.status}`}>
             <Layout>
                 <div className="content-wrapper">
                     <PageTitle>

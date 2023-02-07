@@ -24,22 +24,29 @@ export default function About() {
     return (
         <CanvasBackground sketch={sketch} sketchUrl={ABOUT_BACKGROUND_URL} title="About Me">
             <div className="prose-wrapper">
-                <PageTitle>Hi there! 👋</PageTitle>
-                <p>Nice to meet you. I am Bhashkar.</p>
-                <p>I am from 🇮🇳, currently living in 🇩🇪. Ich kann ein bisschen Deutsch sprechen.</p>
+                <PageTitle>Greetings, earthlings!✌️</PageTitle>
                 <p>
-                    I spend way too much time in front of screens, either focusing on writing code
-                    or text; or relaxing by reading or watching anything that catches my fancy.
+                    Hello and welcome to my corner of the internet! I'm a code wizard and world
+                    traveler, born in 🇮🇳 and currently residing in 🇩🇪. I speak a little bit of
+                    German, but don't be too impressed. 😅
                 </p>
                 <p>
-                    I have been professionally writing code for almost 13 years, for a variety of
-                    organizations, ranging from a 2-person startup running out of a living room, all
-                    the way up to companies which are market leaders in their field, with thousands
-                    of employees. I have worked across industries like online publishing, IoT,
-                    ad-tech, e-commerce, observability; and have built web frontends, backends, and
-                    native apps.
+                    When I'm not busy creating digital magic, you can find me reading, watching, or
+                    just generally relaxing in front of a screen. It's a talent, I swear!
                 </p>
-                <p>Feel free to reach out / follow me at one of the platforms below.</p>
+                <p>
+                    With almost 13 years of experience in the tech world, I've had the chance to
+                    work for organizations ranging from 2-person startups to market leaders with
+                    thousands of employees. I've built web frontends, backends, and native apps
+                    across industries like online publishing, IoT, ad-tech, e-commerce, and
+                    observability.
+                </p>
+                <p>
+                    So, sit back, relax, and enjoy the ride as you explore my portfolio. From code
+                    to art, and everything in between, I promise to keep things interesting and fun.
+                    And if you want to join in on the fun, feel free to connect with me on one of
+                    the platforms below.
+                </p>
             </div>
         </CanvasBackground>
     );
