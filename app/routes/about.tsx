@@ -26,9 +26,9 @@ export default function About() {
             <div className="prose-wrapper">
                 <PageTitle>Greetings, earthlings!✌️</PageTitle>
                 <p>
-                    Hello and welcome to my corner of the internet! I'm a code wizard and world
-                    traveler, born in 🇮🇳 and currently residing in 🇩🇪. I speak a little bit of
-                    German, but don't be too impressed. 😅
+                    Hello and welcome to my corner of the internet! I'm a code wizard and tinkerer,
+                    born in 🇮🇳 and currently residing in 🇩🇪. I speak a little bit of German, but
+                    don't be too impressed. 😅
                 </p>
                 <p>
                     When I'm not busy creating digital magic, you can find me reading, watching, or
