@@ -14,7 +14,7 @@ const CanvasBackground: React.FC<CanvasBackgroundProps> = function CanvasBackgro
         <div className="relative">
             {sketch && (
                 <iframe
-                    className="absolute z-[-1] w-full min-h-screen"
+                    className="fixed z-[-1] w-full min-h-screen"
                     src={sketchUrl}
                     srcDoc={sketch}
                     title={title}
