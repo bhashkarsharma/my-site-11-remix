@@ -1,16 +1,16 @@
-import { Link, LoaderFunction, MetaFunction, useLoaderData } from 'remix';
+import { Link, MetaFunction, useLoaderData } from 'remix';
+import CanvasBackground from '~/components/CanvasBackground';
 import GalleryPreview from '~/components/GalleryPreview';
 import IdeaPreview from '~/components/IdeaPreview';
 import PageTitle from '~/components/PageTitle';
 import PostPreview from '~/components/PostPreview';
 import PostPreviewWrapper from '~/components/PostPreviewWrapper';
 import { SITE } from '~/constants/global';
-import { GalleryItem } from '~/types/gallery';
-import { Idea } from '~/types/idea';
-import { Post } from '~/types/post';
-import { fetchGallery } from '~/utils/gallery';
+import { fetchGallery, getSrcDocFromP5Sketch } from '~/utils/gallery';
 import { fetchIdeas } from '~/utils/idea';
 import { fetchPosts } from '~/utils/post';
+
+const HOME_BACKGROUND_URL = 'https://editor.p5js.org/bhashkarsharma/full/R2n1QXNW8';
 
 export const meta: MetaFunction = () => {
     return {
@@ -19,65 +19,62 @@ export const meta: MetaFunction = () => {
     };
 };
 
-type LoaderData = {
-    posts: Awaited<Promise<Post[]>>;
-    gallery: Awaited<Promise<GalleryItem[]>>;
-    ideas: Awaited<Promise<Idea[]>>;
-};
-
-export const loader: LoaderFunction = async () => {
+export const loader = async () => {
     const posts = await fetchPosts({ itemsToFetch: 4 });
     const gallery = await fetchGallery({ itemsToFetch: 4 });
     const ideas = await fetchIdeas({ itemsToFetch: 4 });
+    const sketch = await getSrcDocFromP5Sketch(HOME_BACKGROUND_URL);
 
-    return { posts, gallery, ideas };
+    return { posts, gallery, ideas, sketch };
 };
 
 export default function Index() {
-    const { posts, gallery, ideas } = useLoaderData() as LoaderData;
+    const { posts, gallery, ideas, sketch } = useLoaderData<typeof loader>();
 
     return (
-        <div className="content-wrapper">
-            <PageTitle>Welcome to my website.</PageTitle>
+        <CanvasBackground sketch={sketch} sketchUrl={HOME_BACKGROUND_URL} title="Home">
+            <div className="content-wrapper">
+                <PageTitle>Words, Views, Bits & Brushes.</PageTitle>
 
-            {posts.length > 0 && (
-                <>
-                    <Link to="/blog">
-                        <h2 className="text-2xl capitalize font-bold mt-16">Recent posts</h2>
-                    </Link>
-                    <PostPreviewWrapper>
-                        {posts.map((post) => (
-                            <PostPreview key={post.id} post={post} />
-                        ))}
-                    </PostPreviewWrapper>
-                </>
-            )}
+                {posts.length > 0 && (
+                    <>
+                        <Link to="/blog">
+                            <h2 className="text-2xl capitalize font-bold mt-16">Recent posts</h2>
+                        </Link>
+                        <PostPreviewWrapper>
+                            {posts.map((post) => (
+                                <PostPreview key={post.id} post={post} />
+                            ))}
+                        </PostPreviewWrapper>
+                    </>
+                )}
 
-            {gallery.length > 0 && (
-                <>
-                    <Link to="/gallery">
-                        <h2 className="text-2xl capitalize font-bold mt-16">Gallery</h2>
-                    </Link>
-                    <PostPreviewWrapper>
-                        {gallery.map((item) => (
-                            <GalleryPreview key={item.id} item={item} />
-                        ))}
-                    </PostPreviewWrapper>
-                </>
-            )}
+                {gallery.length > 0 && (
+                    <>
+                        <Link to="/gallery">
+                            <h2 className="text-2xl capitalize font-bold mt-16">Gallery</h2>
+                        </Link>
+                        <PostPreviewWrapper>
+                            {gallery.map((item) => (
+                                <GalleryPreview key={item.id} item={item} />
+                            ))}
+                        </PostPreviewWrapper>
+                    </>
+                )}
 
-            {ideas.length > 0 && (
-                <>
-                    <Link to="/ideas">
-                        <h2 className="text-xl capitalize font-bold mt-16">Ideas</h2>
-                    </Link>
-                    <PostPreviewWrapper>
-                        {ideas.map((idea) => (
-                            <IdeaPreview key={idea.id} idea={idea} />
-                        ))}
-                    </PostPreviewWrapper>
-                </>
-            )}
-        </div>
+                {ideas.length > 0 && (
+                    <>
+                        <Link to="/ideas">
+                            <h2 className="text-xl capitalize font-bold mt-16">Ideas</h2>
+                        </Link>
+                        <PostPreviewWrapper>
+                            {ideas.map((idea) => (
+                                <IdeaPreview key={idea.id} idea={idea} />
+                            ))}
+                        </PostPreviewWrapper>
+                    </>
+                )}
+            </div>
+        </CanvasBackground>
     );
 }

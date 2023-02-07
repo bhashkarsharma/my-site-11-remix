@@ -1,4 +1,5 @@
 import { MetaFunction, useLoaderData } from 'remix';
+import CanvasBackground from '~/components/CanvasBackground';
 import PageTitle from '~/components/PageTitle';
 import { SITE } from '~/constants/global';
 import { getSrcDocFromP5Sketch } from '~/utils/gallery';
@@ -21,16 +22,7 @@ export const loader = async () => {
 export default function About() {
     const { sketch } = useLoaderData<typeof loader>();
     return (
-        <div className="relative">
-            {sketch && (
-                <iframe
-                    className="absolute z-[-1] w-full min-h-screen"
-                    src={ABOUT_BACKGROUND_URL}
-                    srcDoc={sketch}
-                    title="About Me"
-                />
-            )}
-
+        <CanvasBackground sketch={sketch} sketchUrl={ABOUT_BACKGROUND_URL} title="About Me">
             <div className="prose-wrapper">
                 <PageTitle>Hi there! 👋</PageTitle>
                 <p>Nice to meet you. I am Bhashkar.</p>
@@ -49,6 +41,6 @@ export default function About() {
                 </p>
                 <p>Feel free to reach out / follow me at one of the platforms below.</p>
             </div>
-        </div>
+        </CanvasBackground>
     );
 }
