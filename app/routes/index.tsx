@@ -39,19 +39,6 @@ export default function Index() {
                 <PageTitle>A World of Words, Code, and Art</PageTitle>
                 <p>Discovering My Digital Expressions.</p>
 
-                {posts.length > 0 && (
-                    <>
-                        <Link to="/blog">
-                            <h2 className="text-2xl capitalize font-bold mt-16">Recent posts</h2>
-                        </Link>
-                        <PostPreviewWrapper>
-                            {posts.map((post) => (
-                                <PostPreview key={post.id} post={post} />
-                            ))}
-                        </PostPreviewWrapper>
-                    </>
-                )}
-
                 {gallery.length > 0 && (
                     <>
                         <Link to="/gallery">
@@ -60,6 +47,19 @@ export default function Index() {
                         <PostPreviewWrapper>
                             {gallery.map((item) => (
                                 <GalleryPreview key={item.id} item={item} />
+                            ))}
+                        </PostPreviewWrapper>
+                    </>
+                )}
+
+                {posts.length > 0 && (
+                    <>
+                        <Link to="/blog">
+                            <h2 className="text-2xl capitalize font-bold mt-16">Posts</h2>
+                        </Link>
+                        <PostPreviewWrapper>
+                            {posts.map((post) => (
+                                <PostPreview key={post.id} post={post} />
                             ))}
                         </PostPreviewWrapper>
                     </>
