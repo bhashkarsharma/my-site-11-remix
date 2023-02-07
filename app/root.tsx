@@ -4,6 +4,7 @@ import Footer from '~/components/Footer';
 import Navbar from '~/components/Navbar';
 import PageTitle from '~/components/PageTitle';
 import SideDrawer from '~/components/SideDrawer';
+import { SITE } from '~/constants/global';
 import stylesUrl from '~/tailwind.css';
 
 export const links: LinksFunction = () => {
@@ -87,6 +88,10 @@ function Document({ children, title }: { children: React.ReactNode; title?: stri
         </html>
     );
 }
+
+Document.defaultProps = {
+    title: SITE.title,
+};
 
 function Layout({ children }: { children: React.ReactNode }) {
     return (
