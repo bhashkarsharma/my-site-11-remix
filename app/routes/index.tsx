@@ -21,9 +21,9 @@ export const meta: MetaFunction = () => {
 
 export const loader = async () => {
     const [posts, gallery, ideas, sketch] = await Promise.all([
-        fetchPosts({ itemsToFetch: 3 }),
-        fetchGallery({ itemsToFetch: 3 }),
-        fetchIdeas({ itemsToFetch: 3 }),
+        fetchPosts({ itemsToFetch: 4 }),
+        fetchGallery({ itemsToFetch: 4 }),
+        fetchIdeas({ itemsToFetch: 4 }),
         getSrcDocFromP5Sketch(HOME_BACKGROUND_URL),
     ]);
 
