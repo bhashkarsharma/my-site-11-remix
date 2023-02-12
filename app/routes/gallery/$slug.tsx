@@ -77,9 +77,9 @@ export default function GalleryItemView() {
                         </a>
                     )}
                     {item.content ? (
-                        <iframe src={item.contentUrl} srcDoc={item.content} title={item.title} />
+                        <iframe srcDoc={item.content} title={item.title} sandbox="allow-scripts" />
                     ) : (
-                        <iframe src={item.contentUrl} title={item.title} />
+                        <iframe src={item.contentUrl} title={item.title} sandbox="allow-scripts" />
                     )}
                 </div>
             ) : (
