@@ -35,6 +35,7 @@ export default function Index() {
 
     return (
         <CanvasBackground sketch={sketch} sketchUrl={HOME_BACKGROUND_URL} title="Home">
+            <div className="w-full min-h-screen" />
             <div className="content-wrapper">
                 <PageTitle>A World of Words, Code, and Art</PageTitle>
                 <p>Discovering My Digital Expressions.</p>
